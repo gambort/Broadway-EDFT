@@ -336,6 +336,56 @@ class pyscfEngine:
             w, U = la.eigh(F_C)
             return w, self.C[:,k0:].dot(U)
 
+    ###################################################################################
+    # Routines for custom DFAs
+    ###################################################################################
+
+    def GetDFTGrid(self, GGA=False, MGGA=False, delta=0.):
+        try:
+            pg = self.SCF.grid
+        except:
+            pg = dft.gen_grid.Grids(self.mol)
+            pg.level = 4 # Not dense because LDA
+            pg.build()
+            
+        xyz = pg.coords
+        w = pg.weights
+        phi = dft.numint.eval_ao(self.mol, xyz, deriv=0)
+        lpos = np.arange(phi.shape[1])
+
+        if GGA or MGGA:
+            print("GGA and MGGA not implented yet!")
+            quit()
+
+        Grid = [ {'w':w, 'lphi':phi, 'lpos':lpos} ]
+
+        # psi4 implementation
+        # Grid = [None]*self.VPot.nblocks()
+
+        # basis = self.wfn.basisset()
+        
+        # for b in range(self.VPot.nblocks()):
+        #     block = self.VPot.get_block(b)
+        #     NP = block.npoints()
+
+        #     Grid[b] = {'NP':NP, 'w': block.w().to_array() }
+
+        #     blockopoints = psi4.core.BlockOPoints\
+        #         ( block.x(), block.y(), block.z(), block.w(),
+        #           psi4.core.BasisExtents(basis,delta) )
+
+        #     lpos = np.array(blockopoints.functions_local_to_global())
+
+        #     funcs = psi4.core.BasisFunctions(basis, NP, basis.nbf())
+        #     funcs.compute_functions(blockopoints)
+        #     lphi = funcs.basis_values()["PHI"].to_array(dense=True)
+
+        #     Grid[b]['lpos'] = lpos
+        #     Grid[b]['lphi'] = lphi[:, lpos]
+
+        return Grid
+
+
     def GetGGAProps(self, Da, Db):
         xyz, w, (rhoa,rhob), _ = GetDensities(None, D1List=(Da,Db), wfn=self.wfn,
                                               return_w = True, return_xyz = True)
