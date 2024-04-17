@@ -77,3 +77,20 @@ S0->S1 energy :   8.16 eV
 S0->S2 energy :  28.35 eV
 S1->S2 energy :  20.18 eV
 ```
+
+## Caution when doing double excitations
+
+Double excitations are solved directly via orbital optimization.
+In normal use cases where the excitation is symmetry protected or is otherwise
+low energy and stable, the double excitation code will converge smoothly to a
+variational minima.
+
+However, in rare cases (usually high energy double excitations)
+the orbital optimization will instead settle to the `ground state
+orbitals, by swapping l<->h.
+There are two signatures of this behaviour:
+i) the energy of the double excitation will be lower than that of the
+corresponding single exciation with the same orbitals;
+ii) the algorithm will iterate for a larger-than-usual (typically over 50)
+number of steps.
+In such cases the energy should be discarded.
