@@ -4,6 +4,12 @@ Broadway code for implementing ensemble DFT and mathematically similar theories
 Note, you need a working copy of [psi4](https://psicode.org/) or [pyscf](https://pyscf.org/) to use Broadway.
 The psi4 interface is recommended, more fully featured, and used for examples.
 
+## Installation
+
+Broadway has not been designed as a package or library, as it is intended to be used for both demonstration
+and development purposes. To install, simply download the code and sub-directories to the directory you
+intend to call it from. Alternatively, use links if you wish changes to be shared in multiple projects.
+
 ## Basic use
 
 The key steps for using Broadway are:
