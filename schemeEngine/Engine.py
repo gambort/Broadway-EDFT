@@ -9,6 +9,7 @@ class schemeEngine:
         self.kh # The HOMO index from the original calculation
         self.kl # The LUMO index from the original calculation
 
+        self.NAtom # Number of atoms
         self.Enn # Nuclear-repulsion energy
 
         self.Has_RS # Whether or not range-separation is allowed
@@ -18,6 +19,17 @@ class schemeEngine:
         # Indicates symmetry index of each state
         # Note - self.Sym_k = np.zeros((self.nbf,))
         #        for implementations without symmetry
+
+        # Orbitals and eigenvalues
+        self.f_Occ # GS occupation factors (nbf)
+        self.C # GS orbital coefficients in the basis (nbf x nbf)
+        self.epsilon # GS orbital energies (nbf)
+
+        # One-body reduced density matrices (1RDMs)
+        self.Da # alpha 1RDM (nbf x nbf)
+        self.Db # beta  1RDM (nbf x nbf)
+        self.D = self.Da + self.Db # Their sum
+
 
         # Constant matrices
         self.S_ao # Overlaps in the basis (nbf x nbf)
